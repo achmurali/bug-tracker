@@ -13,7 +13,6 @@ const CustomThemeProvider = (props:{[key:string]:ReactElement}) => {
 
     const setGlobalTheme = () => {
         let theme = "";
-        console.log("themename " + themeName)
         if(themeName === "normal")
             theme = "dark";
         else

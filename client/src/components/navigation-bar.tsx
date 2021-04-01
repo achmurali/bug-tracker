@@ -5,6 +5,9 @@ import { makeStyles } from '@material-ui/core';
 import { SvgIcon,IconButton } from '@material-ui/core'
 
 import { ThemeContext } from "./themes/customThemeProvider"
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../redux/store';
+import { toggleDarkMode } from '../redux/slices/themeSlice'
 
 const useStyles = makeStyles((theme) => ({
     toolBar : {
@@ -32,10 +35,11 @@ const useStyles = makeStyles((theme) => ({
 const NavigationBar:React.FC = () => {
 
     const setTheme = useContext(ThemeContext); 
-
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const handleThemeClick = () => {
+        dispatch(toggleDarkMode());
         setTheme();
     };
 
