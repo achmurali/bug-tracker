@@ -5,14 +5,17 @@ import { red } from '@material-ui/core/colors'
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
-  },
-  overrides:{
-    MuiToolbar:{
-      root:{
-        backgroundColor:"#0277bd"
-      }
+    primary: {
+      main:"#c5c5c5"
     }
   }
+  // overrides:{
+  //   MuiToolbar:{
+  //     root:{
+  //       backgroundColor:"red",
+  //     }
+  //   }
+  // }
 })
 
 export default theme

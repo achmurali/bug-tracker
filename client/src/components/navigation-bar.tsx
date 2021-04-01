@@ -20,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
     themeButton : {
         zIndex : theme.zIndex.drawer + 1,
         boxShadow: theme.shadows[5],
-        border: "2px solid #ffffff"
-    }
+        border: "2px solid #ffffff",
+    },
+    themeIcon : {
+        "&:hover":{
+            opacity: '0.7'
+        }
+    } 
 }))
 
 const NavigationBar:React.FC = () => {
@@ -31,7 +36,7 @@ const NavigationBar:React.FC = () => {
     const classes = useStyles();
 
     const handleThemeClick = () => {
-
+        setTheme();
     };
 
     return (
@@ -41,7 +46,7 @@ const NavigationBar:React.FC = () => {
             }}>
                 <div className = {classes.endDiv}>
                     <IconButton onClick = {handleThemeClick} className = {classes.themeButton}>
-                        <SvgIcon>
+                        <SvgIcon className = {classes.themeIcon}>
                             <path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z" 
                                   color="white"  />
                         </SvgIcon>
