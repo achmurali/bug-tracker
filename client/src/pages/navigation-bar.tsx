@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core';
-import { SvgIcon,IconButton } from '@material-ui/core'
+import { SvgIcon,IconButton,useTheme,AppBar,Toolbar,Tooltip } from '@material-ui/core'
 
-import { ThemeContext } from "./themes/customThemeProvider"
+import { ThemeContext } from "../themes/customThemeProvider"
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../redux/store';
 import { toggleDarkMode } from '../redux/slices/themeSlice'
+import { RootState } from '../redux/store';
+import { lightThemeIcon,darkThemeIcon } from '../utils/constants'
 
 const useStyles = makeStyles((theme) => ({
     toolBar : {
@@ -18,18 +17,16 @@ const useStyles = makeStyles((theme) => ({
     endDiv : {
         display: 'block',
         position: 'absolute',
-        right: '1em',
+        right: '1em'
     },
     themeButton : {
         zIndex : theme.zIndex.drawer + 1,
         boxShadow: theme.shadows[5],
-        border: "2px solid #ffffff",
-    },
-    themeIcon : {
         "&:hover":{
             opacity: '0.7'
-        }
-    } 
+        },
+        border: `2px solid ${theme.palette.text.primary}`,
+    }
 }))
 
 const NavigationBar:React.FC = () => {
@@ -37,6 +34,8 @@ const NavigationBar:React.FC = () => {
     const setTheme = useContext(ThemeContext); 
     const classes = useStyles();
     const dispatch = useDispatch();
+    const globalTheme = useTheme();
+    const theme = useSelector((state:RootState) => state.theme)
 
     const handleThemeClick = () => {
         dispatch(toggleDarkMode());
@@ -50,10 +49,12 @@ const NavigationBar:React.FC = () => {
             }}>
                 <div className = {classes.endDiv}>
                     <IconButton onClick = {handleThemeClick} className = {classes.themeButton}>
-                        <SvgIcon className = {classes.themeIcon}>
-                            <path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z" 
-                                  color="white"  />
-                        </SvgIcon>
+                        <Tooltip title="Switch Mode">
+                            <SvgIcon>
+                                <path d={theme.darkmode ? lightThemeIcon : darkThemeIcon} 
+                                    color= {globalTheme.palette.text.primary} />
+                            </SvgIcon>
+                        </Tooltip>
                     </IconButton>
                 </div>
             </Toolbar>
