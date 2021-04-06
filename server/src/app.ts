@@ -1,14 +1,18 @@
 import express from 'express';
-import { PORT } from './utils/config';
+import cors from 'cors';
+
+import authenticationRouter from './routers/authentication';
 
 const app = express();
 
+app.use(express.json());
+app.use(cors())
+
+app.use('/',authenticationRouter);
+
+
 app.get('/',(_,res) => {
     res.send("Hello World");
-});
-
-app.listen(PORT,() => {
-    console.log("Listening on port 3000");
 });
 
 export default app;
