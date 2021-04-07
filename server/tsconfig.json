@@ -20,6 +20,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types"]
   }
 }

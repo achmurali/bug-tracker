@@ -1,15 +1,18 @@
 export interface Error{
-    message?:string
+    message?:string,
+    valid?: boolean
 }
 
-interface AuthErrors extends Error{
+interface AuthInput {
     username?:string,
-    password?:string
+    password?:string,
+    message?:string,
+    confirmpassword?:string
 };
 
 
-export const loginValidator = (username: string, password: string) => {
-  const errors: AuthErrors = {};
+export const loginValidator = (username: string, password: string):Error => {
+  const errors: AuthInput = {};
 
   if (!username || username.trim() === '') {
     errors.username = 'Username field must not be empty.';
@@ -20,19 +23,29 @@ export const loginValidator = (username: string, password: string) => {
   }
 
   return {
-    errors,
+    message: Object.values(errors)[0],
     valid: Object.keys(errors).length < 1,
   };
 };
 
 export const signupValidator = (username:string,password:string,confirmpassword:string) => {
-    const error: Error = {};
+    const errors: AuthInput = {};
 
     if(!username || username.trim() === "" || 
         !password || password.trim() === "" ||
          !confirmpassword || confirmpassword.trim() === ""){
-            error.message = "Field should not be empty";
+            errors.message = "Field should not be empty";
         }
-    
-    return error;
+        
+    if(!checkUniqueUsername(username))
+        error.message = "Not a Valid Username";
+
+    return {
+        message:Object.values(errors)[0],
+        valid: Object.keys(errors).length < 1
+    };
 };
+
+const checkUniqueUsername = (username:string):boolean => {
+    
+}
