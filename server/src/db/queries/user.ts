@@ -1,0 +1,1 @@
+export const insertNewUser  = `INSERT INTO users(username,password) VALUES(%s,%s)`;
