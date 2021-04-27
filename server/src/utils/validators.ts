@@ -34,18 +34,27 @@ export const signupValidator = (username:string,password:string,confirmpassword:
     if(!username || username.trim() === "" || 
         !password || password.trim() === "" ||
          !confirmpassword || confirmpassword.trim() === ""){
-            errors.message = "Field should not be empty";
+            errors.message = "Fields should not be empty";
         }
-        
-    if(!checkUniqueUsername(username))
-        error.message = "Not a Valid Username";
-
+    if(password != confirmpassword)
+        throw new Error("Passwords dont tally");
+    
     return {
         message:Object.values(errors)[0],
         valid: Object.keys(errors).length < 1
     };
 };
 
-const checkUniqueUsername = (username:string):boolean => {
-    
-}
+export const checkRequestBody = (req:any,parameters:Array<string>) => {
+  let flag:boolean = false;
+  const res =  parameters.map((ele) => {
+    console.log(req[ele])
+    if(req[ele] === undefined || req[ele] === null)
+      flag = true;
+    return req[ele];
+  });
+  if(flag)
+    throw new Error("Bad Request")
+  return res;
+};
+

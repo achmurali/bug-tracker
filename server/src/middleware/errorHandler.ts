@@ -1,20 +1,15 @@
 import { Request,Response,NextFunction } from 'express';
 import { HttpError } from 'http-errors';
+import { IException } from '../models/Exception'
 
 
-const errorHandler = (error:HttpError,_req:Request,res:Response,next:NextFunction) => {
-    console.log(error);
-//     if (error.name === 'JsonWebTokenError') {
-//     return res.status(401).send({ message: 'Invalid token.' });
-//   } else if (error.message) {
-//     return res.status(400).send({ message: error.message });
-//   } else {
-//     res.status(400).send({ message: 'Something went wrong.' });
-//   }
+const errorHandler = (error:HttpError|IException,_req:Request,res:Response,next:NextFunction) => {
+    error.status = error.status ?? 400;
+    error.message = error.message ?? "Something Went Wrong";
     res.status(error.status).json({
         message:error.message,
         stack:error.stack,
-        status:error.status
+        success:false
     })
 
     next(error);
