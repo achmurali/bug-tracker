@@ -53,10 +53,12 @@ export const loginUser = asyncHandler(async (req:Request,res:Response) => {
         throw new Exception("Wrong Password.Try again",401);
     
     const token = jwt.sign({
+        id:row.id,
         username: username
-    },JWT_SECRET);
+    },JWT_SECRET,{expiresIn:'1hr'});
 
     res.status(201).send({
+        id: row.id,
         username:username,
         success:true,
         token

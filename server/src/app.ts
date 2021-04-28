@@ -4,6 +4,7 @@ import cors from 'cors';
 import authenticationRouter from './routers/authentication';
 import projectsRouter from './routers/projects';
 import errorHandler, {errorLogger} from './middleware/errorHandler';
+import authenticator from './middleware/authenticator';
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/',authenticationRouter);
+
+app.use(authenticator);
+
 app.use('/',projectsRouter);
 
 app.get('/',(_,res) => {
