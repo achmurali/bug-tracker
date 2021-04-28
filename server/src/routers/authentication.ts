@@ -4,7 +4,7 @@ import { signupUser,loginUser } from '../controllers/auth';
 
 const router = express.Router();
 
-router.use('/login',loginUser);
-router.use('/signup',signupUser);
+router.post('/login',loginUser);
+router.post('/signup',signupUser);
 
 export default router;
