@@ -26,7 +26,7 @@ export const signupUser = asyncHandler(async (req:Request,res:Response) => {
     if(result.rowCount < 1)
         throw new Error("Try Again Later");
 
-    res.status(201).send({
+    return res.status(201).send({
         success:true
     });
 });
@@ -57,7 +57,7 @@ export const loginUser = asyncHandler(async (req:Request,res:Response) => {
         username: username
     },JWT_SECRET,{expiresIn:'1hr'});
 
-    res.status(201).send({
+    return res.status(201).send({
         id: row.id,
         username:username,
         success:true,

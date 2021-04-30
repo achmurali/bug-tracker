@@ -58,3 +58,8 @@ export const checkRequestBody = (req:any,parameters:Array<string>) => {
   return res;
 };
 
+export const addProjectValidator = (name:string,members:Array<string>) => {
+  if(!name || name.trim() === "" ||
+  !members)
+    throw new Error("Bad Request");
+}

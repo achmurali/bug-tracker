@@ -9,7 +9,7 @@ interface IToken {
     username:string
 }
 
-const authenticator = (req:Request, res:Response,next:NextFunction) => {
+const authenticator = (req:Request, _res:Response,next:NextFunction) => {
     try
     {
         const token = req.header('x-auth-token');
