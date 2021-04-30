@@ -5,8 +5,13 @@ import authenticator from '../middleware/authenticator';
 
 const router = express.Router();
 
+//Projects
 router.get("/projects", authenticator, projects.getAllProjects);
 router.post("/projects", authenticator, projects.addProject);
-router.get("/project/:id", authenticator, projects.getProject);
+
+//Singular Project
+router.get("/project/:id", authenticator, projects.getProjectHandler);
+router.put("/project/:id", authenticator, projects.updateProject);
+router.delete("/project/:id", authenticator,projects.deleteProject);
 
 export default router;

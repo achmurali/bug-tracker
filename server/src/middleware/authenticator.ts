@@ -5,7 +5,7 @@ import Exception from '../models/Exception'
 import { JWT_SECRET } from '../utils/config';
 
 interface IToken {
-    id:string,
+    id:number,
     username:string
 }
 
@@ -19,7 +19,8 @@ const authenticator = (req:Request, _res:Response,next:NextFunction) => {
         const verifiedToken = jwt.verify(token,JWT_SECRET) as IToken;
         if(!verifiedToken.id)
             throw new Error();
-        req.user = verifiedToken.id;
+        console.log()
+        req.user = +verifiedToken.id;
         next();
     }
     catch{

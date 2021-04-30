@@ -13,7 +13,7 @@ const dbConfig = {
     return res;
   },
   async getClient() {
-    const client = await pool.connect() as PoolClient
+    const client = await pool.connect() as PoolClient;
     const query = client.query
     const release = client.release
     // set a timeout of 5 seconds, after which we will log this client's last query
