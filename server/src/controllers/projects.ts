@@ -17,8 +17,8 @@ import {
 import Exception from '../models/Exception';
 import { IProjectResult } from '../models/Project';
 
-export const getAllProjects = asyncHandler(async (_req:Request,res:Response) => {
-    const result = await dbConfig.query(getAllProjectsQuery,[]);
+export const getAllProjects = asyncHandler(async (req:Request,res:Response) => {
+    const result = await dbConfig.query(getAllProjectsQuery,[req.user]);
     res.json(result.rows);
 });
 
