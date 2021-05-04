@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import authenticationRouter from './routers/authentication';
 import projectsRouter from './routers/projects';
+import bugRouter from './routers/bug'
 import errorHandler, {errorLogger} from './middleware/errorHandler';
 import unknownEndpointHandler from './middleware/unknownEndpointHandler';
 
@@ -12,10 +13,8 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/',authenticationRouter);
-
-//app.use(authenticator);
-
 app.use('/',projectsRouter);
+app.use('/',bugRouter);
 
 app.get('/',(_,res) => {
     res.send("Hello World");
