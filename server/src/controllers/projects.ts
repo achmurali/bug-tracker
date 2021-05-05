@@ -19,11 +19,14 @@ import { IProjectResult } from '../models/Project';
 
 export const getAllProjects = asyncHandler(async (req:Request,res:Response) => {
     const result = await dbConfig.query(getAllProjectsQuery,[req.user]);
-    res.json(result.rows);
+    res.json({
+        data:result.rows,
+        success:true
+    });
 });
 
 export const getProjectHandler = asyncHandler(async (req:Request,res:Response) => {
-    const id = req.params.id;
+    const id = req.params.projectId;
     const result: IProjectResult = {
         project:[],
         members:[]
@@ -83,7 +86,7 @@ export const updateProject = asyncHandler(async(req:Request,res:Response) => {
     if(!condition)
         throw new Error("Bad Request");
     
-    const id = req.params.id;    
+    const id = req.params.projectId;    
     if(condition === "name"){
         const [name] = checkRequestBody(req.body,["name"]);
         result = await dbConfig.query(updateProjectNameQuery,[name,id]);
@@ -117,14 +120,14 @@ export const updateProject = asyncHandler(async(req:Request,res:Response) => {
 });
 
 export const deleteProject = asyncHandler(async(req:Request,res:Response) => {
-    const id = req.params.id;
+    const id = req.params.projectId;
     const result = await dbConfig.query(deleteProjectQuery,[id]);
     if(result.rowCount == 0)
         throw new Exception("Internal Server Error",500);
     res.status(200).send({
         data:result.rows,
         success:true
-    })
+    });
 });
 
 //Utility Methods

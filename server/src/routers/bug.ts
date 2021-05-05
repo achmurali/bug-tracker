@@ -5,7 +5,7 @@ import { getAllBugs,addBug,deleteBug,getBug,updateBug } from '../controllers/bug
 
 const router = express.Router();
 
-router.get("/projects/:projectId/bugs",authenticator,authorizer, getAllBugs);
+router.get("/projects/:projectId/bugs",authenticator,authorizer,getAllBugs);
 router.post("/projects/:projectId/bugs",authenticator,authorizer,addBug);
 
 router.get("/projects/:projectId/bugs/:bugId",authenticator,authorizer,getBug);

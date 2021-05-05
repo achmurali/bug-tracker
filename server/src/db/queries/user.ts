@@ -4,4 +4,4 @@ export const checkUsernameExists = 'SELECT * FROM users WHERE username = $1::tex
 
 export const getUser = 'SELECT id,username,password FROM users WHERE username = $1::text';
 
-export const getAllUsers = 'SELECT id,username FROM users WHERE username != $1';
+export const getAllUsers = 'SELECT id,username FROM users WHERE id != $1';

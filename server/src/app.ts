@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import authenticationRouter from './routers/authentication';
+import userRouter from './routers/user';
 import projectsRouter from './routers/projects';
 import bugRouter from './routers/bug'
 import errorHandler, {errorLogger} from './middleware/errorHandler';
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/',authenticationRouter);
+app.use('/',userRouter);
 app.use('/',projectsRouter);
 app.use('/',bugRouter);
 

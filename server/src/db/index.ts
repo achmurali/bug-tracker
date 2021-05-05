@@ -7,6 +7,7 @@ const pool = new Pool(connection);
 const dbConfig = {
     async query(text:string, params?:Array<any>) {
     const start = Date.now();
+    console.log('Current Query',{text});
     const res = await pool.query(text,params);
     const duration = Date.now() - start;
     console.log('executed query', { text, duration, rows: res.rowCount });

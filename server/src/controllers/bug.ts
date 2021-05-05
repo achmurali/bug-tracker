@@ -79,8 +79,8 @@ export const getBug = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const updateBug = asyncHandler(async (req: Request, res: Response) => {
-    const [projectId,bugId] = [req.params.projectId,req.params.bugId];
-    const bugDetails = await dbConfig.query(getBugDetailsQuery,[projectId,bugId]);
+    const bugId = req.params.bugId;
+    const bugDetails = await dbConfig.query(getBugDetailsQuery,[bugId]);
     if(bugDetails.rowCount != 1)
       throw new Exception("Something went wrong",500);
     const newValues = updateValues(req.body,bugDetails.rows[0],req.user);  
