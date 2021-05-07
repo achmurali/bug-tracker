@@ -1,6 +1,6 @@
 export const getAllNotes = 'SELECT * FROM notes WHERE bugid = $1::uuid';
 
-export const getNote = 'SELECT * FROM notes WHERE bugid = $1::uuid AND notedid = $2::uuid';
+export const getNote = 'SELECT * FROM notes WHERE bugid = $1::uuid AND noteid = $2::uuid';
 
 export const isNoteAdmin = 'SELECT * FROM notes WHERE bugid = $1::uuid AND noteid = $2::uuid AND createdby = $3'
 

@@ -63,3 +63,12 @@ export const addProjectValidator = (name:string,members:Array<string>) => {
   !members)
     throw new Error("Bad Request");
 }
+
+export const optionalCheckRequestBody = (req:any,parameters:Array<string>) => {
+  let flag:boolean = false;
+  Object.keys(req).some((ele) => {
+    if(parameters.includes(ele))
+      flag = true;
+  });
+  flag ? undefined : (() => {throw new Error("Bad Request")})(); 
+}

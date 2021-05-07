@@ -12,7 +12,7 @@ import {
   getBugDetails as getBugDetailsQuery,
   updateBugDetails as updateBugDetailsQuery
 } from "../db/queries/bug";
-import { checkRequestBody } from "../utils/validators";
+import { checkRequestBody, optionalCheckRequestBody } from "../utils/validators";
 import Exception from "../models/Exception";
 import { Status, Priority } from '../models/Bugs'; 
 import { getAllNotes } from "../db/queries/note";
@@ -77,7 +77,7 @@ export const getBug = asyncHandler(async (req: Request, res: Response) => {
 
   res.status(200).json({
       data:{
-        bugs:result.rows,
+        bugs:result.rows[0],
         notes:noteResult.rows
       },
       success:true
@@ -86,12 +86,13 @@ export const getBug = asyncHandler(async (req: Request, res: Response) => {
 
 export const updateBug = asyncHandler(async (req: Request, res: Response) => {
     const bugId = req.params.bugId;
+    optionalCheckRequestBody(req.body,["name","description","status","priority"]);
     const bugDetails = await dbConfig.query(getBugDetailsQuery,[bugId]);
     if(bugDetails.rowCount != 1)
       throw new Exception("Something went wrong",500);
     const newValues = updateValues(req.body,bugDetails.rows[0],req.user);  
     const result = await dbConfig.query(updateBugDetailsQuery,[newValues.name,newValues.description,newValues.updatedBy,newValues.priority,
-                                          newValues.status,newValues.updatedTimestamp]);
+                                          newValues.status,newValues.updatedtimestamp]);
     if(result.rowCount < 1)
       throw new Exception("Something went wrong",500);
     res.status(200).json({
@@ -113,7 +114,7 @@ const updateValues = (body:any,row:any,user:number) => {
 
 const getStatusEnum = (status:string) => {
   switch(status){
-    case "Close": return Status.CLOSE;
+    case "Closed": return Status.CLOSED;
     case "Open" : return Status.OPEN;
     case "Idle" : return Status.IDLE;
     default: throw new Exception("Bad Request",400);

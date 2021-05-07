@@ -20,7 +20,7 @@ export const getNote = asyncHandler(async (req:Request,res:Response) => {
     const [bugId,noteId] = [req.params.bugId,req.params.noteId];
     const result = await dbConfig.query(noteQueries.getNote,[bugId,noteId]);
     res.status(200).json({
-        data:result.rows,
+        data:result.rows[0],
         success:true
     });
 });
