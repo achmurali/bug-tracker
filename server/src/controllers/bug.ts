@@ -15,6 +15,7 @@ import {
 import { checkRequestBody } from "../utils/validators";
 import Exception from "../models/Exception";
 import { Status, Priority } from '../models/Bugs'; 
+import { getAllNotes } from "../db/queries/note";
 
 export const getAllBugs = asyncHandler(async (req: Request, res: Response) => {
   const projectId = req.params.projectId;
@@ -72,8 +73,13 @@ export const getBug = asyncHandler(async (req: Request, res: Response) => {
   const result = await dbConfig.query(getBugQuery,[projectId,bugId]);
   if(result.rowCount > 1)
     throw new Exception("Something went wrong",500);
+  const noteResult = await dbConfig.query(getAllNotes,[bugId]);
+
   res.status(200).json({
-      data:result.rows[0],
+      data:{
+        bugs:result.rows,
+        notes:noteResult.rows
+      },
       success:true
   })
 });

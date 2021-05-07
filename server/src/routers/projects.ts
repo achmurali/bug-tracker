@@ -1,7 +1,8 @@
 import express from 'express';
 
 import * as projects from '../controllers/projects';
-import authenticator, { authorizer,adminAuthorizer } from '../middleware/authenticator';
+import authenticator from '../middleware/authenticator';
+import  { authorizer,adminAuthorizer } from '../middleware/authorizer';
 
 const router = express.Router();
 

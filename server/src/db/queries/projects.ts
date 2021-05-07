@@ -1,5 +1,8 @@
 //Project
-export const getAllProjects = 'SELECT projects.id,projects.name,projects.admin,projects.timestamp,COUNT(DISTINCT project_users.user_id) as members,COUNT(bugs.bug_id) as bugs FROM projects INNER JOIN project_users ON projects.id = project_users.project_id INNER JOIN bugs ON bugs.project_id = projects.id WHERE projects.admin = $1 OR project_users.user_id = $1 GROUP BY projects.id';
+export const getAllProjects = `SELECT t.*,COUNT(DISTINCT project_users.user_id) as members,COUNT(bugs.bug_id) as bugs
+FROM (SELECT DISTINCT projects.* FROM projects LEFT OUTER JOIN project_users ON
+projects.id = project_users.project_id WHERE projects.admin = $1 OR project_users.user_id = $1) t LEFT OUTER JOIN project_users ON t.id = project_users.project_id
+LEFT OUTER JOIN bugs ON bugs.project_id = t.id GROUP BY t.id,t.name,t.timestamp,t.admin`;
 
 export const getProject = 'SELECT * FROM projects WHERE id = $1';
 

@@ -16,6 +16,7 @@ import {
 } from "../db/queries/projects";
 import Exception from '../models/Exception';
 import { IProjectResult } from '../models/Project';
+import { getAllBugs } from '../db/queries/bug';
 
 export const getAllProjects = asyncHandler(async (req:Request,res:Response) => {
     const result = await dbConfig.query(getAllProjectsQuery,[req.user]);
@@ -29,7 +30,8 @@ export const getProjectHandler = asyncHandler(async (req:Request,res:Response) =
     const id = req.params.projectId;
     const result: IProjectResult = {
         project:[],
-        members:[]
+        members:[],
+        bugs:[]
     };
     let row = await getProject(id);
     if(!result)
@@ -39,6 +41,10 @@ export const getProjectHandler = asyncHandler(async (req:Request,res:Response) =
 
     let members = await dbConfig.query(getProjectMembers,[id]);
     result.members = members.rows;
+
+    let bugs = await dbConfig.query(getAllBugs,[id]);
+    result.bugs = bugs.rows;
+
     res.json({
         data:result,
         success:true});
@@ -51,7 +57,7 @@ export const addProject = asyncHandler(async(req:Request,res:Response) => {
     const client = await dbConfig.getClient();
     let response:IProjectResult = {
         project:[],
-        members:[]
+        members:[],
     };
 
     const id = uuid();

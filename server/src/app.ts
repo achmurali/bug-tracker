@@ -5,6 +5,7 @@ import authenticationRouter from './routers/authentication';
 import userRouter from './routers/user';
 import projectsRouter from './routers/projects';
 import bugRouter from './routers/bug'
+import notesRouter from './routers/note';
 import errorHandler, {errorLogger} from './middleware/errorHandler';
 import unknownEndpointHandler from './middleware/unknownEndpointHandler';
 
@@ -17,10 +18,11 @@ app.use('/',authenticationRouter);
 app.use('/',userRouter);
 app.use('/',projectsRouter);
 app.use('/',bugRouter);
+app.use("/",notesRouter);
 
-app.get('/',(_,res) => {
-    res.send("Hello World");
-});
+// app.get('/',(_,res) => {
+//     res.send("Hello World");
+// });
 
 app.use(unknownEndpointHandler);
 
