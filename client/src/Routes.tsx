@@ -3,19 +3,23 @@ import {Switch,Route} from 'react-router-dom';
 
 import Login from './pages/login';
 import Home from './pages/home';
+import Signup from './pages/signup';
 
 const Routes = () => {
     return (
         <Switch>
-            <Route path="/login">
-                <Login/>
+            <Route exact path="/">
+                <Home/>
             </Route>
-            <Route path="/home">
+            <Route exact path="/login">
+                <Login/>
+            </Route>]
+            <Route exact path="/signup">
+                <Signup/>
+            </Route>
+            <Route exact path="/home">
                 <Home/>
             </Route> 
-            <Route path="/">
-                <Home/>
-            </Route>
         </Switch>
     );
 };
