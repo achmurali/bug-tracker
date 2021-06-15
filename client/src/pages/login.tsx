@@ -1,22 +1,24 @@
-import React from 'react';
-import { makeStyles, Paper, Grid, TextField, Typography,Button,InputAdornment} from '@material-ui/core'
+import React, {useState} from 'react';
+import { makeStyles,Paper,Grid,Typography,Button,InputAdornment,IconButton } from '@material-ui/core'
 import { useForm } from "react-hook-form";
 import PersonIcon from '@material-ui/icons/Person'
 import LockIcon from '@material-ui/icons/Lock'
-import * as Yup from 'yup';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 
-import { backendUrl as url } from '../utils/config';
+import InputField from '../components/inputfield';
+
 interface InputValues {
   username: string;
   password: string;
 }
 
-const validationSchema = Yup.object({
-    username: Yup.string().required(),
-    password: Yup.string().required()
-})
+const validationSchema = yup.object().shape({
+    username:yup.string().required('Required'),
+    password:yup.string().required('Required')
+});
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -45,14 +47,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Login:React.FC = () => {
 
+    const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
-    const { register, handleSubmit, errors} = useForm<InputValues>({
+
+
+    const { control, handleSubmit, formState:{ errors }} = useForm<InputValues>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema)
     });
 
     const onSubmit = () => {
-        //const result = await axios.post(`${url}/login`,)
+        
     }
 
     return (
@@ -75,11 +80,10 @@ const Login:React.FC = () => {
                     Login :D
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-                    <TextField
-                        inputRef = {register}
+                    <InputField
                         name = "username"
+                        control = {control}
                         label = "User Name"
-                        required = {true}
                         size = "medium"
                         variant = "standard"
                         classes = {{
@@ -92,27 +96,39 @@ const Login:React.FC = () => {
                             </InputAdornment>
                             ),
                             }}
+                        error = {errors.username}
                     >
-                    </TextField>
-                    <TextField
-                        inputRef = {register}
+                    </InputField>
+                    <InputField
                         name = "password"
                         label = "Password"
-                        required = {true}
+                        control = {control}
                         size = "medium"
                         variant = "standard"
                         classes = {{
                             root:classes.textField
                         }}
+                        type={showPassword ? 'text' : 'password'}
                         InputProps={{
+                            endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setShowPassword((prevState:boolean) => !prevState)}
+                                    size="small"
+                                >
+                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                            ),
                             startAdornment: (
                             <InputAdornment position="start">
                                 <LockIcon color="primary" />
                             </InputAdornment>
                             ),
                         }}
+                        error = {errors.password}
                         >
-                    </TextField>
+                    </InputField>
                     <Button
                         color="primary"
                         variant="contained"
