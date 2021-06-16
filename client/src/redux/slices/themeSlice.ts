@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { getDarkmode } from '../../utils/localStorage';
+
 interface IInitialState{
     darkmode:boolean
 }
 
 const initialState:IInitialState = {
-    darkmode:false
+    darkmode: getDarkmode() || false 
 };
 
 const themeSlice = createSlice({

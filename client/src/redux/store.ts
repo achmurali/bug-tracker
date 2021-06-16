@@ -4,9 +4,15 @@ import { ThunkAction } from 'redux-thunk';
 
 import themeReducer from './slices/themeSlice';
 import authReducer from './slices/authSlice';
+import  notificationReducer from './slices/notificationSlice';
+import loadingReducer from './slices/loadingSlice';
+import errorReducer from './slices/errorSlice';
 
 const store = configureStore({
     reducer:{
+        error:errorReducer,
+        loading:loadingReducer,
+        notification:notificationReducer,
         theme:themeReducer,
         auth:authReducer
     },

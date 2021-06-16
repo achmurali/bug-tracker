@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { makeStyles,Paper,Grid,Typography,Button,InputAdornment,IconButton } from '@material-ui/core'
+import { makeStyles,Paper,Grid,Typography,Button,InputAdornment,IconButton,LinearProgress } from '@material-ui/core'
 import { useForm } from "react-hook-form";
 import PersonIcon from '@material-ui/icons/Person'
 import LockIcon from '@material-ui/icons/Lock'
@@ -9,6 +9,10 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import InputField from '../components/inputfield';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectLoadingState } from '../redux/slices/loadingSlice';
+import { login } from '../controllers/auth';
+import { ICredentials } from '../models/auth';
 
 interface InputValues {
   username: string;
@@ -49,15 +53,16 @@ const Login:React.FC = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
-
+    const loading = useSelector(selectLoadingState);
+    const dispatch = useDispatch();
 
     const { control, handleSubmit, formState:{ errors }} = useForm<InputValues>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema)
     });
 
-    const onSubmit = () => {
-        
+    const onSubmit = ({username,password}:ICredentials) => {
+        dispatch(login({username,password}));
     }
 
     return (
@@ -76,6 +81,7 @@ const Login:React.FC = () => {
                 <Paper elevation={4} classes={{
                     root:classes.paper
                 }}>
+                {loading.isLoading && <LinearProgress />}    
                 <Typography align="center" display="block" variant="h6" className = {classes.heading}>
                     Login :D
                 </Typography>
@@ -86,6 +92,7 @@ const Login:React.FC = () => {
                         label = "User Name"
                         size = "medium"
                         variant = "standard"
+                        defaultValue=""
                         classes = {{
                             root:classes.textField
                         }}
@@ -105,6 +112,7 @@ const Login:React.FC = () => {
                         control = {control}
                         size = "medium"
                         variant = "standard"
+                        defaultValue=""
                         classes = {{
                             root:classes.textField
                         }}
@@ -136,6 +144,7 @@ const Login:React.FC = () => {
                         fullWidth
                         type="submit"
                         className ={classes.submit}
+                        disabled={loading.isLoading}
                         >
                         Log In
                     </Button>

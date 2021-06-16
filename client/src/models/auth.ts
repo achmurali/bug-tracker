@@ -3,3 +3,9 @@ export interface ICredentials {
     password:string;
     confirmpassword?:string
 }
+
+export interface UserData {
+    id: any;
+    username: string;
+    token: string
+}
