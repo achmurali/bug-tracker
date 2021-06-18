@@ -17,9 +17,12 @@ export const getUser = () => {
     const { expiry, ...userData } = JSON.parse(data);
     const now = new Date();
 
-    if(now.getTime() > expiry)
-        return userData;
-    return null;
+    if(now.getTime() > expiry){
+        localStorage.removeItem(storageKeyAuth);
+        return null;
+    }
+
+    return userData;
 }
 
 export const removeUser = () => localStorage.removeItem(storageKeyAuth);

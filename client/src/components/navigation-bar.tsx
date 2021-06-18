@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-import { SvgIcon,IconButton,useTheme,AppBar,Toolbar,Tooltip,Button } from '@material-ui/core'
+import { SvgIcon,IconButton,useTheme,AppBar,Toolbar,Tooltip,Button,Avatar } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { ThemeContext } from "../themes/customThemeProvider"
@@ -10,6 +10,9 @@ import { toggleDarkMode } from '../redux/slices/themeSlice'
 import { RootState } from '../redux/store';
 import { lightThemeIcon,darkThemeIcon } from '../utils/constants'
 import bugIcon from '../svg/bug-logo.svg';
+import NavButton from './nav-button';
+import { selectAuthState } from '../redux/slices/authSlice';
+import { logout } from '../controllers/auth';
 
 const useStyles = makeStyles((theme) => ({
     toolBar : {
@@ -18,16 +21,19 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
     },
     endDiv : {
-        display: 'block',
+        display: 'inline-flex',
         position: 'absolute',
-        right: '1em'
+        right: '1em',
+        alignItems:"center"
     },
     themeButton : {
         zIndex : theme.zIndex.drawer + 1,
         boxShadow: theme.shadows[5],
+        marginLeft:"0.5em",
         "&:hover":{
             opacity: '0.7'
         },
+        height:"2em",
         border: `2px solid ${theme.palette.text.primary}`,
     },
     logoBtn: {
@@ -39,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
           fontSize: '1em',
           marginLeft: '0.6em',
         },
+        color:"white"
       },
       backBtn: {
         [theme.breakpoints.down('xs')]: {
@@ -61,6 +68,11 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         display: 'flex',
         alignItems: 'center',
+      },
+      avatar:{
+        display:"inline-flex",
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.contrastText,
       }
 }))
 
@@ -73,6 +85,7 @@ const NavigationBar:React.FC = () => {
     const theme = useSelector((state:RootState) => state.theme);
     const history = useHistory();
     const { pathname } = useLocation();
+    const userData = useSelector(selectAuthState);
 
     const handleThemeClick = () => {
         dispatch(toggleDarkMode());
@@ -123,6 +136,27 @@ const NavigationBar:React.FC = () => {
             }}>
                 <div className={classes.leftPortion}>{mainButton()}</div>
                 <div className = {classes.endDiv}>
+                  {!userData.user ? 
+                    (
+                    <>
+                      {console.log(userData)}
+                      <NavButton variant="outlined" onClick={() => history.push("/login")}>
+                        Login
+                      </NavButton>
+                      <NavButton variant="outlined" onClick={() => history.push("/signup")}>
+                        Signup
+                      </NavButton>
+                    </>
+                    ):
+                    <>
+                      <NavButton variant="outlined" onClick={() => {
+                        logout();
+                        history.push("/")
+                      }
+                        }>Logout</NavButton>
+                      <Avatar className={classes.avatar}>{userData.user.username.charAt(0)}</Avatar>
+                    </>
+                    } 
                     <IconButton onClick = {handleThemeClick} className = {classes.themeButton}>
                         <Tooltip title="Switch Mode">
                             <SvgIcon>

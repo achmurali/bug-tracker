@@ -1,21 +1,17 @@
-import axios from 'axios';
-
 import { backendUrl, backendUrl as url } from '../utils/config';
 import { ICredentials } from '../models/auth';
+import http from '../http/axios';
 
 const login = async (credentials : ICredentials) => {
-    const result = await axios.post(`${backendUrl}/login`,credentials);
-    return result.data;
+  const result = await http.post(`${backendUrl}/login`, credentials);
+  delete result.success;
+  return result;
 }
 
 const signup = async (credentials : ICredentials) => {
-    const result = await axios.post(`${backendUrl}/signup`,credentials);
-    //@ts-ignore
-    if(result.data.success)
-      return result.data;
-    else
-      //@ts-ignore
-      throw new Error(result.message);
+  const result = await http.post(`${backendUrl}/signup`, credentials);
+  delete result.success;
+  return result;
 }
 
 const authService = { login, signup };

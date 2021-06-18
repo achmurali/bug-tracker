@@ -1,11 +1,11 @@
 import { ICredentials } from '../models/auth';
 import authService from '../services/auth';
 import { AppThunk } from '../redux/store';
-import { setUser } from '../redux/slices/authSlice';
+import { setUser,removeUser } from '../redux/slices/authSlice';
 import { setLoading } from '../redux/slices/loadingSlice';
 import * as localStorage from '../utils/localStorage';
 import notify from './notification';
-import { addError } from '../redux/slices/errorSlice';
+import { addError,removeError } from '../redux/slices/errorSlice';
 
 type Token = string | null;
 
@@ -25,6 +25,7 @@ export const login = (credentials : ICredentials):AppThunk => {
         return async (dispatch) => {
             try{
                 dispatch(setLoading({isLoading:true}));
+                dispatch(removeError());
                 const result = await authService.login(credentials);
                 dispatch(setUser(result));
 
@@ -33,12 +34,7 @@ export const login = (credentials : ICredentials):AppThunk => {
                 dispatch(notify('Welcome Back!!!!','success'));
             }
             catch(err){
-                if(typeof err === "string" ){
-                    dispatch(addError({message:err}));
-                }
-                else
-                    dispatch(addError({message:"Something Went Wrong!!!",additionalInfo:err}))
-                dispatch(notify('Please try Again :(','error'));
+                setError(err,dispatch);
             }
             finally{
                 dispatch(setLoading({isLoading:false}));
@@ -46,6 +42,33 @@ export const login = (credentials : ICredentials):AppThunk => {
         }
 }
 
-export const signup = () => {
+export const signup = (credentials : ICredentials):AppThunk => {
+    return async (dispatch) => {
+        try{
+        dispatch(setLoading({isLoading:true}));
+        dispatch(removeError());
+        const result = await authService.signup(credentials);
 
+        dispatch(notify('User Successfully Created!!!!','success'))
+        }
+        catch(err){
+            setError(err,dispatch);
+        }
+        finally{
+            dispatch(setLoading({isLoading:false}));
+        }
+    };
+}
+
+const setError = (err:any , dispatch:any) => {
+    dispatch(addError({message:err.message,additionalInfo:err.stack}));
+    dispatch(notify(err.message,'error'));
+}
+
+export const logout = ():AppThunk => {
+    return (dispatch) => {
+        dispatch(removeError());
+        dispatch(removeUser());
+        localStorage.removeUser();
+    }
 }

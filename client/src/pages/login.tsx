@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLoadingState } from '../redux/slices/loadingSlice';
 import { login } from '../controllers/auth';
 import { ICredentials } from '../models/auth';
+import { useHistory } from 'react-router';
 
 interface InputValues {
   username: string;
@@ -55,6 +56,7 @@ const Login:React.FC = () => {
     const classes = useStyles();
     const loading = useSelector(selectLoadingState);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const { control, handleSubmit, formState:{ errors }} = useForm<InputValues>({
     mode: 'onChange',
@@ -63,6 +65,7 @@ const Login:React.FC = () => {
 
     const onSubmit = ({username,password}:ICredentials) => {
         dispatch(login({username,password}));
+        history.push("/")
     }
 
     return (

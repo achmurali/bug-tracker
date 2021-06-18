@@ -11,7 +11,9 @@ import { getUser } from './utils/localStorage';
 
 const Routes = () => {
     const userData = useSelector(selectAuthState);
-    const isLoggedIn = userData.user != null || getUser();
+    const result = getUser();
+    console.log(result);
+    const isLoggedIn = userData.user != null && result;
 
     return (
         <Switch>
