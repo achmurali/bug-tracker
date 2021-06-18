@@ -4,12 +4,22 @@ const storageKeyAuth = "BugTrackerAuthTokenKey";
 const storageKeyTheme = "BugTrackerThemeKey";
 
 export const saveUser = (userData : UserState) => {
-    localStorage.setItem(storageKeyAuth, JSON.stringify(userData));
+    const date = new Date();
+    let userWithExpiry = {...userData,expiry : date.getTime() + 1800000 }
+    localStorage.setItem(storageKeyAuth, JSON.stringify(userWithExpiry));
 }
 
 export const getUser = () => {
     const data = localStorage.getItem(storageKeyAuth); 
-    return data ? JSON.parse(data) : null;
+    if(!data)
+        return null;
+
+    const { expiry, ...userData } = JSON.parse(data);
+    const now = new Date();
+
+    if(now.getTime() > expiry)
+        return userData;
+    return null;
 }
 
 export const removeUser = () => localStorage.removeItem(storageKeyAuth);
