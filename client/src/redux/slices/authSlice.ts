@@ -19,6 +19,7 @@ const authSlice = createSlice({
             state.user = action.payload;
         },
         removeUser: (state) => {
+            console.log("TESTTTT")
             state.user = null;
         }
     }

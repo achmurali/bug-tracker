@@ -65,7 +65,6 @@ const Login:React.FC = () => {
 
     const onSubmit = ({username,password}:ICredentials) => {
         dispatch(login({username,password}));
-        history.push("/")
     }
 
     return (

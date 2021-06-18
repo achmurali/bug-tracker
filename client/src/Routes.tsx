@@ -13,7 +13,7 @@ const Routes = () => {
     const userData = useSelector(selectAuthState);
     const result = getUser();
     console.log(result);
-    const isLoggedIn = userData.user != null && result;
+    const isLoggedIn = userData.user != null || result;
 
     return (
         <Switch>

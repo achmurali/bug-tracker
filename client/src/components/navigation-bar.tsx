@@ -100,6 +100,11 @@ const NavigationBar:React.FC = () => {
           }
     }
 
+    const handleLogout = () => {
+      dispatch(logout());
+      history.push("/login");
+    }
+
     const mainButton = () => {
         if (['/', '/login', '/signup'].includes(pathname)) {
           return (
@@ -140,20 +145,16 @@ const NavigationBar:React.FC = () => {
                     (
                     <>
                       {console.log(userData)}
-                      <NavButton variant="outlined" onClick={() => history.push("/login")}>
+                      <NavButton variant="outlined" to="/login" component={RouterLink}>
                         Login
                       </NavButton>
-                      <NavButton variant="outlined" onClick={() => history.push("/signup")}>
+                      <NavButton variant="outlined" to="/signup" component={RouterLink}>
                         Signup
                       </NavButton>
                     </>
                     ):
                     <>
-                      <NavButton variant="outlined" onClick={() => {
-                        logout();
-                        history.push("/")
-                      }
-                        }>Logout</NavButton>
+                      <NavButton variant="outlined" onClick={handleLogout}>Logout</NavButton>
                       <Avatar className={classes.avatar}>{userData.user.username.charAt(0)}</Avatar>
                     </>
                     } 
