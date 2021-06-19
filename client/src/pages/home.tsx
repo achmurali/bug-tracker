@@ -1,11 +1,16 @@
 import React from 'react'
 
+import HomePageLayout from '../HOCs/HomePageLayout';
+
 const Home:React.FC = () => {
     return (
-        <div>
+        
+        <div style={{
+            paddingTop:"100px"
+        }}>
             Home
         </div>
     )
 };
 
-export default Home;
+export default HomePageLayout(Home);
