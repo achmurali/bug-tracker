@@ -27,16 +27,12 @@ App using PERN Stack
 
 ## Features
 
-- Authentication (login/register w/ username & password)
-- CRUD projects, with ability to add members for group work
-- CRUD bugs, with title, description & priority
+- Authentication using JWT.
+- CRUD operations for projects.
+- CRUD operations for bugs associated with projects.
+- CRUD operations for bugs to associate with bugs via the project members.
 - Project members can add, edit, close & reopen bugs etc.
-- Sort projects/bugs by various parameters like priority, recentely closed etc.
-- Filter projects/bugs by name/title & other parameters
-- CRUD notes, for guiding other members
-- Descriptive color indicators for bug priority & status
-- Error management with descriptive messages
-- Toast notifications for actions: creating projects, removing membes etc.
-- Loading spinners for fetching processes
+- Sorting, Filtering etc for custom viewing.
+- Central error handling in server side.
+- Toast notifications.
 - Dark mode toggle w/ local storage save
-- Proper responsive UI for all screens

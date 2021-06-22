@@ -104,8 +104,9 @@ const ProjectsPage = () => {
     const dispatch = useDispatch();
     //Sort Bar 
     const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-        const selectedValue = e.target.value as ProjectSortValues;
-        dispatch(sortProjectsBy(selectedValue));
+        //const selectedValue = e.target.value;
+        //@ts-nocheck
+        dispatch(sortProjectsBy(e.target.value));
     };
 
     //Search Bar
