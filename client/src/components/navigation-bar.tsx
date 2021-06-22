@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import { SvgIcon,IconButton,useTheme,AppBar,Toolbar,Tooltip,Button,Avatar } from '@material-ui/core'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 import { ThemeContext } from "../themes/customThemeProvider"
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
+        position:'sticky',
+        marginBottom:'1.5em'
     },
     endDiv : {
         display: 'inline-flex',
@@ -135,6 +140,7 @@ const NavigationBar:React.FC = () => {
       };
 
     return (
+      <Container disableGutters={true}>
         <AppBar className = {classes.appBar}>
             <Toolbar classes={{
                 root: classes.toolBar
@@ -145,16 +151,16 @@ const NavigationBar:React.FC = () => {
                     (
                     <>
                       {console.log(userData)}
-                      <NavButton variant="outlined" to="/login" component={RouterLink}>
+                      <NavButton variant="outlined" to="/login" component={RouterLink} startIcon={<ExitToAppIcon />}> 
                         Login
                       </NavButton>
-                      <NavButton variant="outlined" to="/signup" component={RouterLink}>
+                      <NavButton variant="outlined" to="/signup" component={RouterLink} startIcon={<PersonAddIcon />}>
                         Signup
                       </NavButton>
                     </>
                     ):
                     <>
-                      <NavButton variant="outlined" onClick={handleLogout}>Logout</NavButton>
+                      <NavButton variant="outlined" onClick={handleLogout} startIcon={<PowerSettingsNewIcon />}>Logout</NavButton>
                       <Avatar className={classes.avatar}>{userData.user.username.charAt(0)}</Avatar>
                     </>
                     } 
@@ -169,6 +175,7 @@ const NavigationBar:React.FC = () => {
                 </div>
             </Toolbar>
         </AppBar>
+        </Container>
     );
 };
 

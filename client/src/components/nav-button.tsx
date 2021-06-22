@@ -12,9 +12,8 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const NavButton:React.FC<any> = ({name,variant,to, ...props}) => {
+const NavButton:React.FC<any> = ({name,variant, ...props}) => {
     const classes = useStyles();
-    const history = useHistory();
     return (
         <Button variant={variant ? variant : 'outlined'} className={classes.button} {...props}>
             {props.children}

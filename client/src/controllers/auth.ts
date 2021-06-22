@@ -6,6 +6,7 @@ import { setLoading } from '../redux/slices/loadingSlice';
 import * as localStorage from '../utils/localStorage';
 import notify from './notification';
 import { addError,removeError } from '../redux/slices/errorSlice';
+import { clearNotification } from '../redux/slices/notificationSlice';
 
 type Token = string | null;
 
@@ -69,6 +70,7 @@ export const logout = ():AppThunk => {
     return (dispatch) => {
         dispatch(removeError());
         dispatch(removeUser());
+        dispatch(notify("Come back soon :)","success"));
         localStorage.removeUser();
     }
 }
@@ -79,6 +81,8 @@ export const autoLogin = ():AppThunk => {
         if (loggedUser) {
             dispatch(setUser(loggedUser));
             setToken(loggedUser.token);
+            dispatch(clearNotification());
+            dispatch(notify('Welcome Back!!!!','success'));
         }
     };
 }

@@ -74,7 +74,7 @@ const Signup:React.FC = () => {
             alignItems="center"
             justify="center"
             style = {{
-                minHeight: '100vh'
+                minHeight: '85vh'
             }}>
             <Grid item container xs = {6} sm = {6}
                     alignItems="center" 

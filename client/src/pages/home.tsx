@@ -1,16 +1,13 @@
 import React from 'react'
 
 import HomePageLayout from '../HOCs/HomePageLayout';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import ProjectsPage from './projectsPage';
 
 const Home:React.FC = () => {
     return (
-        
-        <div style={{
-            paddingTop:"100px"
-        }}>
-            Home
-        </div>
+        <ProjectsPage />
     )
 };
 
-export default HomePageLayout(Home);
+export default HomePageLayout({icon:ListAltIcon,header:"All Projects",description:"View, Add and Edit all Projects "})(Home);

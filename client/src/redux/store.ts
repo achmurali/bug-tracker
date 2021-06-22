@@ -7,6 +7,8 @@ import authReducer from './slices/authSlice';
 import  notificationReducer from './slices/notificationSlice';
 import loadingReducer from './slices/loadingSlice';
 import errorReducer from './slices/errorSlice';
+import projectsReducer from './slices/projectsSlice';
+import usersReducer from './slices/usersSlice';
 
 const store = configureStore({
     reducer:{
@@ -14,7 +16,9 @@ const store = configureStore({
         loading:loadingReducer,
         notification:notificationReducer,
         theme:themeReducer,
-        auth:authReducer
+        auth:authReducer,
+        projects:projectsReducer,
+        users:usersReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 })

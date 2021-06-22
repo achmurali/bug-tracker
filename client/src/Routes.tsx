@@ -8,6 +8,7 @@ import PageNotFound from './pages/static/pageNotFound';
 import { useSelector } from 'react-redux';
 import { selectAuthState } from './redux/slices/authSlice';
 import { getUser } from './utils/localStorage';
+import { Container } from '@material-ui/core';
 
 const Routes = () => {
     const userData = useSelector(selectAuthState);
@@ -16,23 +17,25 @@ const Routes = () => {
     const isLoggedIn = userData.user != null || result;
 
     return (
-        <Switch>
-            <Route exact path="/">
-                {!isLoggedIn ? <Login /> : <Home />}
-            </Route>
-            <Route exact path="/login">
-                {!isLoggedIn ? <Login /> : <Redirect to="/"/>}
-            </Route>]
-            <Route exact path="/signup">
-                {!isLoggedIn ? <Signup /> : <Redirect to="/"/>}
-            </Route>
-            <Route exact path="/home">
-                <Home/>
-            </Route> 
-            <Route>
-                <PageNotFound />
-            </Route>
-        </Switch>
+        <Container disableGutters={true}>
+            <Switch>
+                <Route exact path="/">
+                    {!isLoggedIn ? <Login /> : <Home />}
+                </Route>
+                <Route exact path="/login">
+                    {!isLoggedIn ? <Login /> : <Redirect to="/"/>}
+                </Route>]
+                <Route exact path="/signup">
+                    {!isLoggedIn ? <Signup /> : <Redirect to="/"/>}
+                </Route>
+                <Route exact path="/home">
+                    <Home/>
+                </Route> 
+                <Route>
+                    <PageNotFound />
+                </Route>
+            </Switch>
+        </Container>
     );
 };
 

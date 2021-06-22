@@ -74,7 +74,7 @@ const Login:React.FC = () => {
             alignItems="center"
             justify="center"
             style = {{
-                minHeight: '100vh'
+                minHeight: '85vH'
             }}>
             <Grid item container xs = {6} sm = {6}
                     alignItems="center" 

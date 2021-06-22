@@ -1,22 +1,52 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { makeStyles, Paper, Typography, Container } from '@material-ui/core';
 
-const HomePageLayout:any = (Component:React.ElementType) => {
-    return () =>  (
-        <Grid container spacing={0}
-            alignItems="center"
-            justify="center"
-            style={{
-                minHeight:'100vh',
-                minWidth:'100vh'
-            }}>
-            <Grid item sm={2}/>
-            <Grid item sm = {8}>
-                <Component />    
-            </Grid>
-            <Grid item sm={2}/>
-        </Grid>
-    )
+const useStyles = makeStyles((theme) => ({
+    headerPaper: {
+        padding: "1.5em",
+        display:"flex",
+        alignItems:"center"
+    },
+    headerIcon: {
+        display: "inline",
+        fontSize: "4.5em",
+        marginRight:"0.2em"
+    },
+    headerDiv:{
+        display:"inline"
+    },
+    mainPaper:{
+        padding:"1.5em",
+        display:"flex",
+        marginTop:"1.5em"
+    }
+}));
+
+const HomePageLayout: any = (props: any) => (Component: React.ElementType) => {
+    const Icon = props.icon;
+
+    return () => {
+        const classes = useStyles();
+
+        return (
+            <>
+                <Container disableGutters={true}>
+                    <Paper className={classes.headerPaper} color="main">
+                        <Icon fontSize="large" className={classes.headerIcon} />
+                        <div className={classes.headerDiv}>
+                            <Typography variant="h5">{props.header}</Typography>
+                            <Typography variant="body1">{props.description}</Typography>
+                        </div>
+                    </Paper>
+                </Container>
+                <Container disableGutters={true}>
+                    <Paper className={classes.mainPaper} color="main">
+                        <Component />
+                    </Paper>
+                </Container>
+            </>
+        )
+    }
 };
 
 export default HomePageLayout;
