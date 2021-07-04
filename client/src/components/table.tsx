@@ -11,16 +11,24 @@ import {
 const useStyles = makeStyles((theme) => ({
     table: {
         '& thead th': {
-          fontWeight: '600',
-          color: theme.palette.secondary.main,
-          backgroundColor: theme.palette.primary.light,
+          fontWeight: '500',
+          color: 'white',
+          backgroundColor: theme.palette.primary.main
         },
-      }
-}))
+    },
+    projectsListTable: {
+        alignSelf: 'flex-start',
+        width: "100%",
+        [theme.breakpoints.down('xs')]: {
+            marginTop: 0,
+        },
+    }
+}));
 
 const CustomTable: React.FC<any> = ({headers,data,...props}) => {
     const classes = useStyles();
     return (
+        <div className={classes.projectsListTable}>
         <Table className={classes.table}>
             <TableHead>
                 <TableRow>
@@ -40,6 +48,7 @@ const CustomTable: React.FC<any> = ({headers,data,...props}) => {
                 } )}
             </TableBody>
         </Table>
+        </div>
     )
 }
 

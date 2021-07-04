@@ -41,7 +41,7 @@ const useTableStyles = makeStyles(
     (theme) => ({
         clickableCell: {
             '&:hover': {
-                backgroundColor: theme.palette.primary.main + '15',
+                backgroundColor: theme.palette.primary.main + '50',
                 cursor: 'pointer',
             },
         },
@@ -54,17 +54,11 @@ const useTableStyles = makeStyles(
             overflowY: 'auto',
             maxHeight: '350px',
         },
-        projectsListTable: {
-            marginTop: '1.5em',
-            [theme.breakpoints.down('xs')]: {
-                marginTop: 0,
-            },
-        },
         paper: {
-            display:'flex',
-            justifyContent:'center',
-            alignItems:'center',
             minHeight: 'calc(100vH - 405px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             [theme.breakpoints.down('xs')]: {
               padding: '0.7em 0.3em',
               minHeight: 'calc(100vH - 160px)',
@@ -77,7 +71,7 @@ export const ProjectTableRow = (p: any) => {
 
     const classes = useTableStyles();
     const history = useHistory();
-    const { user } = useSelector(selectAuthState);
+    //const { user } = useSelector(selectAuthState);
 
     return (
         <TableRow key={p.id}>
@@ -89,31 +83,30 @@ export const ProjectTableRow = (p: any) => {
                 <Link
                     component={RouterLink}
                     to={`/projects/${p.id}`}
-                    color="secondary"
                 >
                     {truncateString(p.name, 30)}
                 </Link>
             </TableCell>
-            <TableCell align="center">{p.bugs.length}</TableCell>
-            <TableCell align="center">{p.members.length}</TableCell>
-            <TableCell align="center">{p.createdBy.username}</TableCell>
+            <TableCell align="center">{p.bugs}</TableCell>
+            <TableCell align="center">{p.members}</TableCell>
+            <TableCell align="center">{p.admin}</TableCell>
             <TableCell align="center">
-                {formatDateTime(p.createdAt)}
+                {formatDateTime(p.timestamp)}
             </TableCell>
-            <TableCell align="center">
+            {/* <TableCell align="center">
                 <ProjectsMenu
                     projectId={p.id}
                     currentName={p.name}
                     currentMembers={p.members.map((m: any) => m.member.id)}
                     isAdmin={p.createdBy.id === user?.id}
                 />
-            </TableCell>
+            </TableCell> */}
         </TableRow>)
 }
 
 const ProjectsPage = () => {
     const dispatch = useDispatch();
-    //Sort Bar 
+    //Sort Bar
     const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
         //const selectedValue = e.target.value;
         //@ts-nocheck
@@ -139,8 +132,7 @@ const ProjectsPage = () => {
         if (loading.isLoading) {
             return (
                 <LoadingSpinner
-                    marginTop='9em'
-                    size="80"
+                    size={60}
                 />
             );
         } else if (!loading.isLoading && projects.length === 0) {
@@ -167,9 +159,7 @@ const ProjectsPage = () => {
             );
         } else {
             return (
-                <div className={classes.projectsListTable}>
-                    <Table data={filteredSortedProjects} headers={tableHeaders} body={ProjectTableRow} />
-                </div>
+                <Table data={filteredSortedProjects} headers={tableHeaders} body={ProjectTableRow} />
             );
         }
     }

@@ -8,10 +8,13 @@ const LoadingSpinner: React.FC<{
     <div
       style={{
         textAlign: 'center',
-        marginTop: marginTop || '3em',
+        marginTop: marginTop,
+        position: 'absolute',
+        top: '50%',
+        left: '50%'
       }}
     >
-      <CircularProgress disableShrink size={size || 80} />
+      <CircularProgress disableShrink size={size || 80} color="primary"/>
     </div>
   );
 };

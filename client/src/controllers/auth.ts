@@ -7,6 +7,7 @@ import * as localStorage from '../utils/localStorage';
 import notify from './notification';
 import { addError,removeError } from '../redux/slices/errorSlice';
 import { clearNotification } from '../redux/slices/notificationSlice';
+import { fetchProjects } from './projects';
 
 type Token = string | null;
 
@@ -33,6 +34,8 @@ export const login = (credentials : ICredentials):AppThunk => {
                 localStorage.saveUser(result);
                 setToken(result.token);
                 dispatch(notify('Welcome Back!!!!','success'));
+
+                dispatch(fetchProjects());
             }
             catch(err){
                 setError(err,dispatch);
@@ -83,6 +86,7 @@ export const autoLogin = ():AppThunk => {
             setToken(loggedUser.token);
             dispatch(clearNotification());
             dispatch(notify('Welcome Back!!!!','success'));
+            dispatch(fetchProjects());
         }
     };
 }

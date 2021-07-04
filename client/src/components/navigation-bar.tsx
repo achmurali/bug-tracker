@@ -150,7 +150,6 @@ const NavigationBar:React.FC = () => {
                   {!userData.user ? 
                     (
                     <>
-                      {console.log(userData)}
                       <NavButton variant="outlined" to="/login" component={RouterLink} startIcon={<ExitToAppIcon />}> 
                         Login
                       </NavButton>

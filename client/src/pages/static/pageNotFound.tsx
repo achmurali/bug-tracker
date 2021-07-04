@@ -1,6 +1,5 @@
 //@ts-nocheck
-import { Typography } from '@material-ui/core';
-import React, { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 
 import './pageNotFound.css'
 
