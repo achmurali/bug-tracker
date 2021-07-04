@@ -5,7 +5,8 @@ import {
     TableRow,
     TableCell,
     Link,
-    makeStyles
+    makeStyles,
+    Paper
 } from '@material-ui/core';
 
 import TableActionHeader from '../components/tableActionHeader';
@@ -20,7 +21,7 @@ import { selectLoadingState } from '../redux/slices/loadingSlice';
 import { selectErrorState } from '../redux/slices/errorSlice';
 import { formatDateTime, truncateString } from '../utils/helpers';
 import ProjectsMenu from './projectsMenu';
-import { selectProjectsState,sortProjectsBy } from '../redux/slices/projectsSlice';
+import { selectProjectsState, sortProjectsBy } from '../redux/slices/projectsSlice';
 import sortProjects from '../utils/sortProjects';
 
 const menuItems = [
@@ -56,8 +57,18 @@ const useTableStyles = makeStyles(
         projectsListTable: {
             marginTop: '1.5em',
             [theme.breakpoints.down('xs')]: {
-              marginTop: 0,
+                marginTop: 0,
             },
+        },
+        paper: {
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center',
+            minHeight: 'calc(100vH - 405px)',
+            [theme.breakpoints.down('xs')]: {
+              padding: '0.7em 0.3em',
+              minHeight: 'calc(100vH - 160px)',
+            }
         }
     })
 );
@@ -93,7 +104,7 @@ export const ProjectTableRow = (p: any) => {
                 <ProjectsMenu
                     projectId={p.id}
                     currentName={p.name}
-                    currentMembers={p.members.map((m:any) => m.member.id)}
+                    currentMembers={p.members.map((m: any) => m.member.id)}
                     isAdmin={p.createdBy.id === user?.id}
                 />
             </TableCell>
@@ -106,7 +117,7 @@ const ProjectsPage = () => {
     const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
         //const selectedValue = e.target.value;
         //@ts-nocheck
-        dispatch(sortProjectsBy(e.target.value));
+        dispatch(sortProjectsBy(e.target.value as ProjectSortValues));
     };
 
     //Search Bar
@@ -115,14 +126,14 @@ const ProjectsPage = () => {
     const classes = useTableStyles();
     const loading = useSelector(selectLoadingState);
     const error = useSelector(selectErrorState);
-    const { projects,sortBy } = useSelector(selectProjectsState);
+    const { projects, sortBy } = useSelector(selectProjectsState);
 
     const filteredSortedProjects = sortProjects(
         projects.filter((p) =>
-          p.name.toLowerCase().includes(searchValue.toLowerCase())
+            p.name.toLowerCase().includes(searchValue.toLowerCase())
         ),
         sortBy
-      );
+    );
 
     const display = () => {
         if (loading.isLoading) {
@@ -157,7 +168,7 @@ const ProjectsPage = () => {
         } else {
             return (
                 <div className={classes.projectsListTable}>
-                    <Table data={filteredSortedProjects} headers={tableHeaders} body={ProjectTableRow}/>
+                    <Table data={filteredSortedProjects} headers={tableHeaders} body={ProjectTableRow} />
                 </div>
             );
         }
@@ -165,8 +176,10 @@ const ProjectsPage = () => {
 
     return (
         <>
-        <TableActionHeader menuItems={menuItems} handleSortChange={handleSortChange} label={"Projects"} sortBy={sortBy} handleSearchBar={setSearchValue} searchValue = {searchValue} icon={<AddIcon />} dialog={<ProjectsForm editMode={null} />} />
-        { display() }
+            <TableActionHeader menuItems={menuItems} handleSortChange={handleSortChange} label={"Projects"} sortBy={sortBy} handleSearchBar={setSearchValue} searchValue={searchValue} icon={AddIcon} dialog={<ProjectsForm editMode={null} />} />
+            <Paper className={classes.paper} elevation={0}>
+            {display()}
+            </Paper>
         </>
     );
 }

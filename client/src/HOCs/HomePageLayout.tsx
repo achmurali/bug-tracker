@@ -17,17 +17,15 @@ const useStyles = makeStyles((theme) => ({
     },
     mainPaper:{
         padding:"1.5em",
-        display:"flex",
         marginTop:"1.5em"
     }
 }));
 
 const HomePageLayout: any = (props: any) => (Component: React.ElementType) => {
     const Icon = props.icon;
-
-    return () => {
+    const HomePageWrapper:React.FC = () => {
+        
         const classes = useStyles();
-
         return (
             <>
                 <Container disableGutters={true}>
@@ -47,6 +45,7 @@ const HomePageLayout: any = (props: any) => (Component: React.ElementType) => {
             </>
         )
     }
+    return HomePageWrapper;
 };
 
 export default HomePageLayout;
