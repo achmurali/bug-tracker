@@ -11,6 +11,11 @@ const getProjects = async () => {
   return response.data;
 };
 
+const getProjectMembers = async (projectId:string) => {
+  const response = await axios.get(`${baseUrl}/${projectId}/members`, setConfig());
+  return response.data;
+}
+
 const createProject = async (projectData: ProjectPayload) => {
   const response = await axios.post(baseUrl, projectData, setConfig());
   return response.data;
@@ -36,6 +41,7 @@ const projectService = {
   createProject,
   deleteProject,
   editProject,
+  getProjectMembers
 };
 
 export default projectService;

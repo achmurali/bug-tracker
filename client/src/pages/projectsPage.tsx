@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import {
@@ -23,6 +23,7 @@ import { formatDateTime, truncateString } from '../utils/helpers';
 import ProjectsMenu from './projectsMenu';
 import { selectProjectsState, sortProjectsBy } from '../redux/slices/projectsSlice';
 import sortProjects from '../utils/sortProjects';
+import projectService from '../services/projects';
 
 const menuItems = [
     { value: 'newest', label: 'Newest' },
@@ -71,7 +72,16 @@ export const ProjectTableRow = (p: any) => {
 
     const classes = useTableStyles();
     const history = useHistory();
-    //const { user } = useSelector(selectAuthState);
+    const [members,setMembers] = useState([]);
+    const { user } = useSelector(selectAuthState);
+    
+    useEffect(() => {
+        const getMembers = async () => { 
+            const result = await projectService.getProjectMembers(p.id);
+            setMembers(result.members); 
+        }
+        getMembers();
+    },[])
 
     return (
         <TableRow key={p.id}>
@@ -93,14 +103,14 @@ export const ProjectTableRow = (p: any) => {
             <TableCell align="center">
                 {formatDateTime(p.timestamp)}
             </TableCell>
-            {/* <TableCell align="center">
+            <TableCell align="center">
                 <ProjectsMenu
                     projectId={p.id}
                     currentName={p.name}
-                    currentMembers={p.members.map((m: any) => m.member.id)}
-                    isAdmin={p.createdBy.id === user?.id}
+                    currentMembers={members}
+                    isAdmin={p.admin === user?.id}
                 />
-            </TableCell> */}
+            </TableCell>
         </TableRow>)
 }
 

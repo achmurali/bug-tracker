@@ -6,7 +6,7 @@ LEFT OUTER JOIN bugs ON bugs.project_id = t.id GROUP BY t.id,t.name,t.timestamp,
 
 export const getProject = 'SELECT * FROM projects WHERE id = $1';
 
-export const addProject = 'INSERT INTO projects(id,name,admin) VALUES($1::uuid,$2::text,$3) RETURNING name,id';
+export const addProject = 'INSERT INTO projects(id,name,admin) VALUES($1::uuid,$2::text,$3) RETURNING name,id,timestamp';
 
 export const updateProjectName = 'UPDATE projects SET name = $1 WHERE id = $2::uuid RETURNING id,name';
 

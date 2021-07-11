@@ -12,7 +12,7 @@ import {
   updateProjectName as updateProjectNameQuery,
   deleteProjectMember,
   deleteProject as deleteProjectQuery,
-  getProjectMembers
+  getProjectMembers as getProjectMembersQuery
 } from "../db/queries/projects";
 import Exception from '../models/Exception';
 import { IProjectResult } from '../models/Project';
@@ -39,7 +39,7 @@ export const getProjectHandler = asyncHandler(async (req:Request,res:Response) =
     
     result.project.push(row);
 
-    let members = await dbConfig.query(getProjectMembers,[id]);
+    let members = await dbConfig.query(getProjectMembersQuery,[id]);
     result.members = members.rows;
 
     let bugs = await dbConfig.query(getAllBugs,[id]);
@@ -50,25 +50,32 @@ export const getProjectHandler = asyncHandler(async (req:Request,res:Response) =
         success:true});
 });
 
+export const getProjectMembers = asyncHandler(async (req:Request,res:Response) => {
+    const id = req.params.projectId;
+    let members = await dbConfig.query(getProjectMembersQuery,[id]);
+    res.json({
+        data:members.rows,
+        success:true
+    });
+});
+
 export const addProject = asyncHandler(async(req:Request,res:Response) => {
     const [ name,members ] = checkRequestBody(req.body,["name","members"]);
 
     addProjectValidator(name,members);
     const client = await dbConfig.getClient();
-    let response:IProjectResult = {
-        project:[],
-        members:[],
-    };
+    let response:any = {}
 
     const id = uuid();
     const admin = +req.user;
 
     //@ts-ignore
     const projectAddResult = await client.query(addProjectQuery,[id,name,admin]);
-    response.project.push(projectAddResult.rows[0]);
+    response = projectAddResult.rows[0];
     if(projectAddResult.rowCount != 1)
         throw new Exception("Internal Server Error", 500);
 
+    response.members = [];
     await Promise.all(members.map(async (ele:string) => {
         const result = await client.query(addProjectMembersQuery,[id,+ele]);
         console.log(result);
@@ -76,10 +83,13 @@ export const addProject = asyncHandler(async(req:Request,res:Response) => {
     })).catch(e => {
         client.release();
         throw new Exception(e,500);
-    })
+    });
     
     client.release();
 
+    response.bugs = 0;
+    response.admin = req.user;
+    response.members = response.members.length;
     res.status(201).json({
         data:response,
         success:true

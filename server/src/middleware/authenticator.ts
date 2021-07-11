@@ -12,6 +12,7 @@ const authenticator = (req:Request, _res:Response,next:NextFunction) => {
     try
     {
         const token = req.header('x-auth-token');
+        console.log("path: "+req.path)
         if(!token)
             throw new Exception("Not Authorized. Please Login again",401);
     

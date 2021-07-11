@@ -32,6 +32,7 @@ const ProjectsMenu: React.FC<ProjectsMenuProps> = ({
   isAdmin,
   iconSize,
 }) => {
+  
   const history = useHistory();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

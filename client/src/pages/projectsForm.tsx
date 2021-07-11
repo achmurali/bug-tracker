@@ -214,7 +214,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                             <ListItemText
                                 primary={option.username}
                                 primaryTypographyProps={{
-                                    color: 'secondary',
+                                    color: 'primary',
                                     variant: 'body1',
                                 }}
                             />

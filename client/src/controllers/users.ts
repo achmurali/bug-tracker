@@ -13,6 +13,7 @@ export const fetchUsers = (): AppThunk => {
       dispatch(setLoading({isLoading:true}));
       dispatch(removeError());
       const allUsers = await userService.getUsers();
+      console.log("++++++++++++++++++++"+allUsers);
       dispatch(setUsers(allUsers));
     } catch (e) {
       setError(e,dispatch);

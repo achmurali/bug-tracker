@@ -17,11 +17,11 @@ import notify from "./notification";
 export const fetchProjects = (): AppThunk => {
   return async (dispatch) => {
     try {
-      console.log("TESTTTT")
+      //console.log("TESTTTT")
       dispatch(setLoading({ isLoading: true }));
       dispatch(removeError());
       const allProjects = await projectService.getProjects();
-      console.log(allProjects)
+      //console.log(allProjects)
       dispatch(setProjects(allProjects));
     } catch (e) {
       setError(e, dispatch);
@@ -40,13 +40,13 @@ export const createNewProject = (
       dispatch(setLoading({ isLoading: true }));
       dispatch(removeError());
       const newProject = await projectService.createProject(projectData);
-      dispatch(addProject(newProject));
+      dispatch(addProject(newProject.project));
       dispatch(notify("New project added!", "success"));
       closeDialog && closeDialog();
     } catch (e) {
       setError(e, dispatch);
     } finally {
-      setLoading({ isLoading: false });
+      dispatch(setLoading({ isLoading: false }));
     }
   };
 };
@@ -64,7 +64,7 @@ export const deleteProject = (
     } catch (e) {
       setError(e, dispatch);
     } finally {
-      setLoading({ isLoading: false });
+      dispatch(setLoading({ isLoading: false }));
     }
   };
 };
@@ -96,7 +96,7 @@ export const editProjectName = (
     } catch (e) {
       setError(e, dispatch);
     } finally {
-      setLoading({ isLoading: false });
+      dispatch(setLoading({ isLoading: false }));
     }
   };
 };
@@ -116,7 +116,7 @@ export const addProjectMembers = (
     } catch (e) {
       setError(e, dispatch);
     } finally {
-      setLoading({ isLoading: false });
+      dispatch(setLoading({ isLoading: false }));
     }
   };
 };
@@ -134,7 +134,7 @@ export const removeProjectMember = (
     } catch (e) {
       setError(e, dispatch);
     } finally{
-      setLoading({ isLoading: false });
+      dispatch(setLoading({ isLoading: false }));
     }
   };
 };

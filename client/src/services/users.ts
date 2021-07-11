@@ -7,6 +7,7 @@ const baseUrl = `${backendUrl}/users`;
 
 const getUsers = async () => {
   const response = await axios.get(baseUrl, setConfig());
+  console.log("++++++"+response)
   return response.data;
 };
 

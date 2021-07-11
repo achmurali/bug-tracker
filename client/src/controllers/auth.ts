@@ -8,6 +8,7 @@ import notify from './notification';
 import { addError,removeError } from '../redux/slices/errorSlice';
 import { clearNotification } from '../redux/slices/notificationSlice';
 import { fetchProjects } from './projects';
+import { fetchUsers } from './users';
 
 type Token = string | null;
 
@@ -36,6 +37,7 @@ export const login = (credentials : ICredentials):AppThunk => {
                 dispatch(notify('Welcome Back!!!!','success'));
 
                 dispatch(fetchProjects());
+                dispatch(fetchUsers());
             }
             catch(err){
                 setError(err,dispatch);
@@ -85,8 +87,10 @@ export const autoLogin = ():AppThunk => {
             dispatch(setUser(loggedUser));
             setToken(loggedUser.token);
             dispatch(clearNotification());
+            
             dispatch(notify('Welcome Back!!!!','success'));
             dispatch(fetchProjects());
+            dispatch(fetchUsers());
         }
     };
 }

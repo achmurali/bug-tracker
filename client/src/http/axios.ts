@@ -8,7 +8,8 @@ const get = async (url:string,headers?:any) => {
             throw new MyError(result.data.message,result.data.stack);
         return result.data;
     }
-    catch(err){
+    catch(err:any){
+        console.log(err.message);
         if(err.isAxiosError)
             throw new MyError(err.response.data.message,err.response.data.stack);
         else
@@ -23,7 +24,7 @@ const post = async (url:string,data:any,headers?:any) => {
             throw new MyError(result.data.message,result.data.stack);
         return result.data;
     }
-    catch(err){
+    catch(err:any){
         if(err.isAxiosError)
             throw new MyError(err.response.data.message,err.response.data.stack);
         else
@@ -38,7 +39,7 @@ const put = async (url:string,data:any,headers?:any) => {
             throw new MyError(result.data.message,result.data.stack);
         return result.data;
     }
-    catch(err){
+    catch(err:any){
         if(err.isAxiosError)
             throw new MyError(err.response.data.message,err.response.data.stack);
         else
@@ -53,7 +54,7 @@ const httpDelete= async (url:string,headers?:any) => {
             throw new MyError(result.data.message,result.data.stack);
         return result.data;
     }
-    catch(err){
+    catch(err:any){
         if(err.isAxiosError)
             throw new MyError(err.response.data.message,err.response.data.stack);
         else

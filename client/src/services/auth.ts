@@ -1,4 +1,4 @@
-import { backendUrl, backendUrl as url } from '../utils/config';
+import { backendUrl } from '../utils/config';
 import { ICredentials } from '../models/auth';
 import http from '../http/axios';
 
