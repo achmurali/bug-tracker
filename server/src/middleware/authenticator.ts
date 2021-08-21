@@ -12,18 +12,20 @@ const authenticator = (req:Request, _res:Response,next:NextFunction) => {
     try
     {
         const token = req.header('x-auth-token');
-        console.log("path: "+req.path)
+        console.log("TOKEN: " + token)
+        console.log("PATH: " + req.path);
         if(!token)
-            throw new Exception("Not Authorized. Please Login again",401);
+            throw new Exception("Not Authenticated. Please Login again",401);
     
         const verifiedToken = jwt.verify(token,JWT_SECRET) as IToken;
+        console.log(verifiedToken)
         if(!verifiedToken.id)
             throw new Error();
         req.user = +verifiedToken.id;
         next();
     }
     catch{
-        throw new Exception("Not Authorized. Please Login again",401);
+        throw new Exception("Not Authenticated. Please Login again",401);
     }
 };
 

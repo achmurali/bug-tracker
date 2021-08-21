@@ -45,12 +45,11 @@ export const addBug = asyncHandler(async (req: Request, res: Response) => {
       throw new Exception("Something went wrong", 500);
     
     res.status(201).json({
-      bug: result.rows,
-      bugDetails: resultDetails.rows,
+      bug:  { ...result.rows[0],...resultDetails.rows[0]},
       success:true
     });
     }
-    catch (err) {
+    catch (err:any) {
       throw new Exception(err, 500);
     } 
     finally {

@@ -4,11 +4,13 @@ import { ThunkAction } from 'redux-thunk';
 
 import themeReducer from './slices/themeSlice';
 import authReducer from './slices/authSlice';
-import  notificationReducer from './slices/notificationSlice';
+import notificationReducer from './slices/notificationSlice';
 import loadingReducer from './slices/loadingSlice';
 import errorReducer from './slices/errorSlice';
 import projectsReducer from './slices/projectsSlice';
+import projectReducer from './slices/projectSlice';
 import usersReducer from './slices/usersSlice';
+import notesReducer from './slices/notesSlice';
 
 const store = configureStore({
     reducer:{
@@ -18,7 +20,9 @@ const store = configureStore({
         theme:themeReducer,
         auth:authReducer,
         projects:projectsReducer,
-        users:usersReducer
+        project:projectReducer,
+        users:usersReducer,
+        notes:notesReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 })

@@ -84,8 +84,8 @@ export const autoLogin = ():AppThunk => {
     return (dispatch) => {
         const loggedUser = localStorage.getUser();
         if (loggedUser) {
-            dispatch(setUser(loggedUser));
             setToken(loggedUser.token);
+            dispatch(setUser(loggedUser));
             dispatch(clearNotification());
             
             dispatch(notify('Welcome Back!!!!','success'));

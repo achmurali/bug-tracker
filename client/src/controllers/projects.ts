@@ -11,6 +11,7 @@ import {
 } from "../redux/slices/projectsSlice";
 import { setLoading } from "../redux/slices/loadingSlice";
 import { addError, removeError } from "../redux/slices/errorSlice";
+import { setProject } from "../redux/slices/projectSlice";
 import { ProjectPayload } from "../models/projects";
 import notify from "./notification";
 
@@ -154,6 +155,22 @@ export const leaveProjectMembership = (
     }
   };
 };
+
+export const getProject = ( projectId : string ) : AppThunk => {
+  return async (dispatch) => {
+    try{
+      dispatch(setLoading({isLoading:true}));
+      const result = await projectService.getProject(projectId);
+      dispatch(setProject(result.data));
+    }
+    catch (e) {
+    setError(e, dispatch);
+    } 
+    finally{
+    dispatch(setLoading({ isLoading: false }));
+    }
+  }
+}
 
 const setError = (err: any, dispatch: any) => {
   dispatch(addError({ message: err.message, additionalInfo: err.stack }));

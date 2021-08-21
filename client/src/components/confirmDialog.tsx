@@ -32,7 +32,7 @@ const useDialogStyles = makeStyles(
         minWidth: 0,
         padding: '0.65em',
         borderRadius: '2em',
-      },
+      }
     }),
     { index: 1 }
   );
@@ -116,7 +116,7 @@ const ConfirmDialog: React.FC<{
       {triggerButton()}
       <Dialog open={dialogOpen} onClose={handleDialogOpen}>
         <DialogTitle disableTypography>
-          <Typography color="secondary" variant="h6">
+          <Typography color="primary" variant="h6">
             {title}
           </Typography>
         </DialogTitle>
@@ -126,7 +126,7 @@ const ConfirmDialog: React.FC<{
         <DialogActions>
           <Button
             onClick={handleDialogClose}
-            color="secondary"
+            color="default"
             variant="outlined"
             size="small"
           >

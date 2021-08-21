@@ -11,7 +11,7 @@ const getProjects = async () => {
   return response.data;
 };
 
-const getProjectMembers = async (projectId:string) => {
+const getProjectMembers = async (projectId: string) => {
   const response = await axios.get(`${baseUrl}/${projectId}/members`, setConfig());
   return response.data;
 }
@@ -26,7 +26,7 @@ const deleteProject = async (projectId: string) => {
   return response.data;
 };
 
-const editProject = async (projectId: string, data: string | string[] | undefined, condition:string) => {
+const editProject = async (projectId: string, data: string | string[] | undefined, condition: string) => {
   const response = await axios.put(
     `${baseUrl}/${projectId}?condition=${condition}`,
     { name: data },
@@ -35,13 +35,19 @@ const editProject = async (projectId: string, data: string | string[] | undefine
   return response.data;
 };
 
+const getProject = async (projectId: string) => {
+  const response = await axios.get(`${baseUrl}/${projectId}`, setConfig());
+  return response;
+}
+
 
 const projectService = {
   getProjects,
   createProject,
   deleteProject,
   editProject,
-  getProjectMembers
+  getProjectMembers,
+  getProject
 };
 
 export default projectService;

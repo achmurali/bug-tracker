@@ -2,7 +2,7 @@
 export const getAllProjects = `SELECT t.*,COUNT(DISTINCT project_users.user_id) as members,COUNT(DISTINCT bugs.bug_id) as bugs
 FROM (SELECT DISTINCT projects.* FROM projects LEFT OUTER JOIN project_users ON
 projects.id = project_users.project_id WHERE projects.admin = $1 OR project_users.user_id = $1) t LEFT OUTER JOIN project_users ON t.id = project_users.project_id
-LEFT OUTER JOIN bugs ON bugs.project_id = t.id GROUP BY t.id,t.name,t.timestamp,t.admin`;
+LEFT OUTER JOIN bugs ON bugs.project_id = t.id GROUP BY t.id,t.name,t.timestamp,t.admin,t.updatedat`;
 
 export const getProject = 'SELECT * FROM projects WHERE id = $1';
 
@@ -14,8 +14,10 @@ export const deleteProject = 'DELETE FROM projects WHERE id = $1::uuid RETURNING
 
 export const checkAdminProject = "SELECT * FROM projects WHERE id = $1::uuid AND admin = $2";
 
+export const updateTimestamp = 'UPDATE projects SET updatedat = $1 WHERE id = $2::uuid'
+
 //Project -- Members
-export const getProjectMembers = 'SELECT * FROM project_users WHERE project_id = $1::uuid';
+export const getProjectMembers = 'SELECT * FROM project_users INNER JOIN users ON project_users.user_id = users.id WHERE project_id = $1::uuid';
 
 export const addProjectMembers = 'INSERT INTO project_users(project_id,user_id) VALUES($1::uuid,$2) RETURNING *';
 

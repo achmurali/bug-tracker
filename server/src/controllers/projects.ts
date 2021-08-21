@@ -12,7 +12,8 @@ import {
   updateProjectName as updateProjectNameQuery,
   deleteProjectMember,
   deleteProject as deleteProjectQuery,
-  getProjectMembers as getProjectMembersQuery
+  getProjectMembers as getProjectMembersQuery,
+  updateTimestamp
 } from "../db/queries/projects";
 import Exception from '../models/Exception';
 import { IProjectResult } from '../models/Project';
@@ -101,13 +102,17 @@ export const updateProject = asyncHandler(async(req:Request,res:Response) => {
     let result;
     if(!condition)
         throw new Error("Bad Request");
-    
-    const id = req.params.projectId;    
+
+    let date = new Date();    
+    const id = req.params.projectId; 
+
+    await dbConfig.query(updateTimestamp,[date,id]);    
+
     if(condition === "name"){
         const [name] = checkRequestBody(req.body,["name"]);
         result = await dbConfig.query(updateProjectNameQuery,[name,id]);
         if(result.rowCount != 1)
-            throw new Exception("Project doesn't exist",404,false);
+            throw new Exception("Project doesn't exist",404,false);       
     }
     else if(condition === "member"){
         const [member] = checkRequestBody(req.body,["member"]);
@@ -123,7 +128,7 @@ export const updateProject = asyncHandler(async(req:Request,res:Response) => {
         const [member] = checkRequestBody(req.body,["member"]);
         result = await dbConfig.query(deleteProjectMember,[id,+member]);
         if(result.rowCount == 0)
-            throw new Exception("Member doesn't exist for this project",404,false);
+            throw new Exception("Member doesn't exist for this project",404,false); 
     }
     else{
         throw new Error();
